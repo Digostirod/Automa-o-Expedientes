@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sobre - Agente de Processos Administrativos</title>
+    <style>
+        /* Estilos básicos */
+        :root {
+            --primary-color: #1d4ed8;
+            --primary-light: #eff6ff;
+            --secondary-color: #0f766e;
+            --secondary-light: #d1faf5;
+            --accent-color: #ea580c;
+            --accent-light: #ffedd5;
+            --gray-light: #f3f4f6;
+            --gray-medium: #9ca3af;
+            --gray-dark: #4b5563;
+            --white: #ffffff;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            line-height: 1.6;
+            color: var(--gray-dark);
+            background-color: #f9fafb;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header */
+        header {
+            background-color: var(--primary-color);
+            color: var(--white);
+            padding: 1rem 0;
+            box-shadow: var(--shadow);
+        }
+        
+        .header-content {
+            display: flex;
+            flex-direction: column;
+            padding: 0.5rem 0;
+        }
+        
+        @media (min-width: 768px) {
+            .header-content {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+            }
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+        
+        @media (min-width: 768px) {
+            .logo {
+                margin-bottom: 0;
+            }
+        }
+        
+        nav ul {
+            display: flex;
+            flex-wrap: wrap;
+            list-style: none;
+            gap: 1.5rem;
+        }
+        
+        nav a {
+            color: var(--white);
+            text-decoration: none;
+            transition: opacity 0.2s;
+        }
+        
+        nav a:hover {
+            opacity: 0.8;
+            text-decoration: underline;
+        }
+        
+        /* Main content */
+        .main-content {
+            padding: 2rem 0;
+        }
+        
+        .page-title {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .page-description {
+            color: var(--gray-dark);
+            margin-bottom: 2rem;
+        }
+        
+        /* Card styles */
+        .card {
+            background-color: var(--white);
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            margin-bottom: 1.5rem;
+        }
+        
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+        
+        /* Content styles */
+        .content-section {
+            margin-bottom: 2rem;
+        }
+        
+        .content-section h3 {
+            font-size: 1.25rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .content-section p {
+            margin-bottom: 1rem;
+        }
+        
+        .content-section ul {
+            margin-bottom: 1rem;
+            padding-left: 1.5rem;
+        }
+        
+        .content-section li {
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Feature grid */
+        .feature-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        @media (min-width: 768px) {
+            .feature-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        .feature-card {
+            background-color: var(--primary-light);
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+        }
+        
+        .feature-card h3 {
+            color: var(--primary-color);
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+        }
+        
+        .feature-card ul {
+            list-style-position: inside;
+            margin-bottom: 1rem;
+        }
+        
+        /* Team section */
+        .team-section {
+            margin-bottom: 2rem;
+        }
+        
+        .team-section h3 {
+            font-size: 1.25rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .team-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+        
+        @media (min-width: 768px) {
+            .team-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        
+        .team-member {
+            background-color: var(--white);
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            text-align: center;
+        }
+        
+        .team-member-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background-color: var(--primary-light);
+            margin: 0 auto 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--primary-color);
+            font-weight: bold;
+            font-size: 2rem;
+        }
+        
+        .team-member h4 {
+            font-size: 1.125rem;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .team-member p {
+            font-size: 0.875rem;
+            color: var(--gray-dark);
+        }
+        
+        /* Contact section */
+        .contact-section {
+            margin-bottom: 2rem;
+        }
+        
+        .contact-section h3 {
+            font-size: 1.25rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .contact-info {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+        
+        @media (min-width: 768px) {
+            .contact-info {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .contact-icon {
+            width: 40px;
+            height: 40px;
+            background-color: var(--primary-light);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--gray-light);
+            border-top: 1px solid #e5e7eb;
+            padding: 2rem 0;
+            margin-top: 2rem;
+        }
+        
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        @media (min-width: 768px) {
+            .footer-content {
+                flex-direction: row;
+                justify-content: space-between;
+            }
+        }
+        
+        .footer-links {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+        
+        @media (min-width: 768px) {
+            .footer-links {
+                margin-top: 0;
+            }
+        }
+        
+        .footer-links a {
+            color: var(--gray-dark);
+            text-decoration: none;
+        }
+        
+        .footer-links a:hover {
+            color: var(--primary-color);
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">Agente de Processos Administrativos</div>
+                <nav>
+                    <ul>
+                        <li><a href="index.html">Início</a></li>
+                        <li><a href="processos.html">Processos</a></li>
+                        <li><a href="priorizacao.html">Priorização</a></li>
+                        <li><a href="banco-dados.html">Banco de Dados</a></li>
+                        <li><a href="configuracoes.html">Configurações</a></li>
+                        <li><a href="sobre.html">Sobre</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="container">
+            <h1 class="page-title">Sobre o Agente de Processos Administrativos</h1>
+            <p class="page-description">
+                Conheça mais sobre nossa solução para automação de processos administrativos.
+            </p>
+
+            <div class="card">
+                <div class="content-section">
+                    <h3>Visão Geral</h3>
+                    <p>
+                        O Agente de Processos Administrativos é uma solução inovadora desenvolvida para automatizar a leitura, análise e resposta de processos administrativos. Combinando tecnologias de automação web, processamento de texto e inteligência artificial, nosso sistema é capaz de acessar o portal PROA, extrair informações relevantes dos processos e sugerir respostas adequadas com base em análises técnicas de engenharia e jurídicas.
+                    </p>
+                    <p>
+                        Nosso objetivo é aumentar a eficiência e a qualidade das respostas aos processos administrativos, reduzindo o tempo gasto em tarefas repetitivas e permitindo que os profissionais foquem em atividades que realmente exigem sua expertise.
+                    </p>
+                </div>
+
+                <div class="content-section">
+                    <h3>Principais Funcionalidades</h3>
+                    <div class="feature-grid">
+                        <div class="feature-card">
+                            <h3>Automação e Processamento</h3>
+                            <ul>
+                                <li>Acesso automatizado ao portal PROA</li>
+                                <li>Processamento de processos via web ou PDF</li>
+                                <li>Extração inteligente de informações</li>
+                                <li>Análise de conteúdo técnico e jurídico</li>
+                            </ul>
+                        </div>
+                        <div class="feature-card">
+                            <h3>Análise e Respostas</h3>
+                            <ul>
+                                <li>Resumo de pontos importantes</li>
+                                <li>Sugestão de respostas personalizadas</li>
+                                <li>Análise técnica de engenharia</li>
+                                <li>Análise jurídica especializada</li>
+                            </ul>
+                        </div>
+                        <div class="feature-card">
+                            <h3>Priorização e Gestão</h3>
+                            <ul>
+                                <li>Identificação de processos urgentes</li>
+                                <li>Classificação por nível de prioridade</li>
+                                <li>Alertas de prazos próximos</li>
+                                <li>Monitoramento de status</li>
+                            </ul>
+                        </div>
+                        <div class="feature-card">
+                            <h3>Banco de Dados e Aprendizado</h3>
+                            <ul>
+                                <li>Histórico completo de processos</li>
+                                <li>Estatísticas e relatórios</li>
+                                <li>Aprendizado contínuo</li>
+                                <li>Adaptação às preferências do usuário</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-section">
+                    <h3>Tecnologias Utilizadas</h3>
+                    <p>
+                        Nossa solução foi desenvolvida utilizando tecnologias modernas e robustas:
+                    </p>
+                    <ul>
+                        <li><strong>Python</strong> - Para automação web, processamento de texto e análise de dados</li>
+                        <li><strong>Playwright</strong> - Para automação de navegador e acesso ao portal PROA</li>
+                        <li><strong>Processamento de Linguagem Natural</strong> - Para análise e compreensão de textos</li>
+                        <li><strong>Aprendizado de Máquina</strong> - Para melhorar continuamente as sugestões de respostas</li>
+                        <li><strong>HTML/CSS/JavaScript</strong> - Para a interface web do sistema</li>
+                    </ul>
+                </div>
+
+                <div class="content-section">
+                    <h3>Benefícios</h3>
+                    <ul>
+                        <li><strong>Economia de tempo</strong> - Redução significativa no tempo gasto na análise de processos</li>
+                        <li><strong>Padronização</strong> - Respostas consistentes e padronizadas para processos similares</li>
+                        <li><strong>Redução de erros</strong> - Minimização de erros técnicos e jurídicos nas respostas</li>
+                        <li><strong>Priorização eficiente</strong> - Identificação rápida de processos que requerem atenção imediata</li>
+                        <li><strong>Histórico completo</strong> - Registro detalhado de todos os processos e respostas</li>
+                        <li><strong>Aprendizado contínuo</strong> - O sistema melhora com o tempo, adaptando-se às suas necessidades</li>
+                    </ul>
+                </div>
+
+                <div class="team-section">
+                    <h3>Nossa Equipe</h3>
+                    <div class="team-grid">
+                        <div class="team-member">
+                            <div class="team-member-avatar">E</div>
+                            <h4>Equipe de Engenharia</h4>
+                            <p>Especialistas em automação e processamento de dados</p>
+                        </div>
+                        <div class="team-member">
+                            <div class="team-member-avatar">J</div>
+                            <h4>Equipe Jurídica</h4>
+                            <p>Especialistas em legislação administrativa</p>
+                        </div>
+                        <div class="team-member">
+                            <div class="team-member-avatar">D</div>
+                            <h4>Equipe de Desenvolvimento</h4>
+                            <p>Desenvolvedores de software e interface</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="contact-section">
+                    <h3>Entre em Contato</h3>
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <div class="contact-icon">@</div>
+                            <div>suporte@agenteprocessos.com.br</div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">T</div>
+                            <div>(51) 3333-4444</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <p>&copy; 2025 Agente de Processos Administrativos</p>
+                <div class="footer-links">
+                    <a href="#termos">Termos de Uso</a>
+                    <a href="#privacidade">Privacidade</a>
+                    <a href="#ajuda">Ajuda</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

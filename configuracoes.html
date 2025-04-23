@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configurações - Agente de Processos Administrativos</title>
+    <style>
+        /* Estilos básicos */
+        :root {
+            --primary-color: #1d4ed8;
+            --primary-light: #eff6ff;
+            --secondary-color: #0f766e;
+            --secondary-light: #d1faf5;
+            --accent-color: #ea580c;
+            --accent-light: #ffedd5;
+            --gray-light: #f3f4f6;
+            --gray-medium: #9ca3af;
+            --gray-dark: #4b5563;
+            --white: #ffffff;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            line-height: 1.6;
+            color: var(--gray-dark);
+            background-color: #f9fafb;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header */
+        header {
+            background-color: var(--primary-color);
+            color: var(--white);
+            padding: 1rem 0;
+            box-shadow: var(--shadow);
+        }
+        
+        .header-content {
+            display: flex;
+            flex-direction: column;
+            padding: 0.5rem 0;
+        }
+        
+        @media (min-width: 768px) {
+            .header-content {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+            }
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+        
+        @media (min-width: 768px) {
+            .logo {
+                margin-bottom: 0;
+            }
+        }
+        
+        nav ul {
+            display: flex;
+            flex-wrap: wrap;
+            list-style: none;
+            gap: 1.5rem;
+        }
+        
+        nav a {
+            color: var(--white);
+            text-decoration: none;
+            transition: opacity 0.2s;
+        }
+        
+        nav a:hover {
+            opacity: 0.8;
+            text-decoration: underline;
+        }
+        
+        /* Main content */
+        .main-content {
+            padding: 2rem 0;
+        }
+        
+        .page-title {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .page-description {
+            color: var(--gray-dark);
+            margin-bottom: 2rem;
+        }
+        
+        /* Card styles */
+        .card {
+            background-color: var(--white);
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            margin-bottom: 1.5rem;
+        }
+        
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+        
+        /* Form styles */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--gray-medium);
+            border-radius: 0.25rem;
+            font-size: 1rem;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px var(--primary-light);
+        }
+        
+        .form-select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--gray-medium);
+            border-radius: 0.25rem;
+            font-size: 1rem;
+            background-color: var(--white);
+        }
+        
+        .form-select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px var(--primary-light);
+        }
+        
+        .form-checkbox {
+            margin-right: 0.5rem;
+        }
+        
+        .form-checkbox-label {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+        
+        .form-help {
+            font-size: 0.875rem;
+            color: var(--gray-medium);
+            margin-top: 0.25rem;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background-color: var(--primary-color);
+            color: var(--white);
+            text-decoration: none;
+            border-radius: 0.25rem;
+            font-weight: 500;
+            text-align: center;
+            transition: background-color 0.2s;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        
+        .btn:hover {
+            background-color: #1e40af;
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+        }
+        
+        .btn-outline:hover {
+            background-color: var(--primary-light);
+        }
+        
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        
+        /* Grid layout */
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+        
+        @media (min-width: 768px) {
+            .grid {
+                grid-template-columns: 2fr 1fr;
+            }
+        }
+        
+        /* Toggle switch */
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+        
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--gray-medium);
+            transition: .4s;
+            border-radius: 34px;
+        }
+        
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .toggle-slider {
+            background-color: var(--primary-color);
+        }
+        
+        input:focus + .toggle-slider {
+            box-shadow: 0 0 1px var(--primary-color);
+        }
+        
+        input:checked + .toggle-slider:before {
+            transform: translateX(26px);
+        }
+        
+        .toggle-label {
+            margin-left: 70px;
+            font-weight: 500;
+        }
+        
+        .toggle-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--gray-light);
+            border-top: 1px solid #e5e7eb;
+            padding: 2rem 0;
+            margin-top: 2rem;
+        }
+        
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        @media (min-width: 768px) {
+            .footer-content {
+                flex-direction: row;
+                justify-content: space-between;
+            }
+        }
+        
+        .footer-links {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+        
+        @media (min-width: 768px) {
+            .footer-links {
+                margin-top: 0;
+            }
+        }
+        
+        .footer-links a {
+            color: var(--gray-dark);
+            text-decoration: none;
+        }
+        
+        .footer-links a:hover {
+            color: var(--primary-color);
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">Agente de Processos Administrativos</div>
+                <nav>
+                    <ul>
+                        <li><a href="index.html">Início</a></li>
+                        <li><a href="processos.html">Processos</a></li>
+                        <li><a href="priorizacao.html">Priorização</a></li>
+                        <li><a href="banco-dados.html">Banco de Dados</a></li>
+                        <li><a href="configuracoes.html">Configurações</a></li>
+                        <li><a href="sobre.html">Sobre</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="container">
+            <h1 class="page-title">Configurações</h1>
+            <p class="page-description">
+                Personalize o comportamento do Agente de Processos Administrativos de acordo com suas preferências.
+            </p>
+
+            <div class="grid">
+                <div class="main-column">
+                    <div class="card">
+                        <h2 class="card-title">Configurações de Acesso</h2>
+                        
+                        <form>
+                            <div class="form-group">
+                                <label class="form-label" for="portal-url">URL do Portal PROA</label>
+                                <input type="text" id="portal-url" class="form-input" value="https://www.proa.rs.gov.br/" placeholder="URL do portal">
+                                <p class="form-help">URL base do portal PROA para acesso automatizado</p>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label" for="username">Nome de Usuário</label>
+                                <input type="text" id="username" class="form-input" placeholder="Seu nome de usuário no portal">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label" for="password">Senha</label>
+                                <input type="password" id="password" class="form-input" placeholder="Sua senha no portal">
+                                <p class="form-help">Suas credenciais são armazenadas de forma segura e criptografada</p>
+                            </div>
+                            
+                            <div class="toggle-container">
+                                <label class="toggle-switch">
+                                    <input type="checkbox" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                                <span class="toggle-label">Salvar credenciais para acesso automático</span>
+                            </div>
+                        </form>
+                    </div>
+                    
+                    <div class="card">
+                        <h2 class="card-title">Preferências de Resposta</h2>
+                        
+                        <form>
+                            <div class="form-group">
+                                <label class="form-label" for="estilo-resposta">Estilo de Resposta</label>
+                                <select id="estilo-resposta" class="form-select">
+                                    <option value="tecnico">Técnico</option>
+                                    <option value="formal">Formal</option>
+                                    <option value="simplificado">Simplificado</option>
+                                </select>
+                                <p class="form-help">Define o estilo geral das respostas sugeridas</p>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label" for="nivel-detalhe">Nível de Detalhe</label>
+                                <select id="nivel-detalhe" class="form-select">
+                                    <option value="basico">Básico</option>
+                                    <option value="intermediario">Intermediário</option>
+                                    <option value="detalhado" selected>Detalhado</option>
+                                </select>
+                                <p class="form-help">Define o nível de detalhamento das respostas sugeridas</p>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label" for="tom-comunicacao">Tom de Comunicação</label>
+                                <select id="tom-comunicacao" class="form-select">
+                                    <option value="neutro">Neutro</option>
+                                    <option value="cordial">Cordial</option>
+                                    <option value="assertivo" selected>Assertivo</option>
+                                </select>
+                                <p class="form-help">Define o tom utilizado nas comunicações</p>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Elementos a Incluir</label>
+                                <div>
+                                    <label class="form-checkbox-label">
+                                        <input type="checkbox" class="form-checkbox" checked> Referências a legislação
+                                    </label>
+                                    <label class="form-checkbox-label">
+                                        <input type="checkbox" class="form-checkbox" checked> Citações de normas técnicas
+                                    </label>
+                                    <label class="form-checkbox-label">
+                                        <input type="checkbox" class="form-checkbox" checked> Resumo de pontos principais
+                                    </label>
+                                    <label class="form-checkbox-label">
+                                        <input type="checkbox" class="form-checkbox"> Histórico de interações anteriores
+                                    </label>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    
+                    <div class="card">
+                        <h2 class="card-title">Configurações de Priorização</h2>
+                        
+                        <form>
+                            <div class="form-group">
+                                <label class="form-label">Critérios de Priorização</label>
+                                <div>
+                                    <label class="form-checkbox-label">
+                                        <input type="checkbox" class="form-checkbox" checked> Palavras-chave de urgência
+                                    </label>
+                                    <label class="form-checkbox-label">
+                                        <input type="checkbox" class="form-checkbox" checked> Prazos e datas
+                                    </label>
+                                    <label class="form-checkbox-label">
+                                        <input type="checkbox" class="form-checkbox" checked> Tipo de processo
+                                    </label>
+                                    <label class="form-checkbox-label">
+                                        <input type="checkbox" class="form-checkbox" checked> Remetente/Origem
+                                    </label>
+                                    <label class="form-checkbox-label">
+                                        <input type="checkbox" class="form-checkbox"> Histórico de interações
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label" for="prazo-critico">Prazo Crítico (dias)</label>
+                                <input type="number" id="prazo-critico" class="form-input" value="2" min="1" max="10">
+                                <p class="form-help">Processos com prazo menor ou igual a este valor serão marcados como críticos</p>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label" for="prazo-urgente">Prazo Urgente (dias)</label>
+                                <input type="number" id="prazo-urgente" class="form-input" value="5" min="3" max="15">
+                                <p class="form-help">Processos com prazo menor ou igual a este valor serão marcados como urgentes</p>
+                            </div>
+                        </form>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button class="btn btn-outline">Restaurar Padrões</button>
+                        <button class="btn">Salvar Configurações</button>
+                    </div>
+                </div>
+
+                <div class="sidebar-column">
+                    <div class="card">
+                        <h2 class="card-title">Configurações Avançadas</h2>
+                        
+                        <div class="toggle-container">
+                            <label class="toggle-switch">
+                                <input type="checkbox" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                            <span class="toggle-label">Modo de aprendizado automático</span>
+                        </div>
+                        
+                        <div class="toggle-container">
+                            <label class="toggle-switch">
+                                <input type="checkbox" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                            <span class="toggle-label">Notificações de processos urgentes</span>
+                        </div>
+                        
+                        <div class="toggle-container">
+                            <label class="toggle-switch">
+                                <input type="checkbox">
+                                <span class="toggle-slider"></span>
+                            </label>
+                            <span class="toggle-label">Modo de economia de dados</span>
+                        </div>
+                        
+                        <div class="toggle-container">
+                            <label class="toggle-switch">
+                                <input type="checkbox" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                            <span class="toggle-label">Atualização automática do banco de dados</span>
+                        </div>
+                        
+                        <div class="toggle-container">
+                            <label class="toggle-switch">
+                                <input type="checkbox">
+                                <span class="toggle-slider"></span>
+                            </label>
+                            <span class="toggle-label">Modo de depuração</span>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <h2 class="card-title">Backup e Restauração</h2>
+                        
+                        <div class="form-group">
+                            <button class="btn" style="width: 100%; margin-bottom: 1rem;">Exportar Configurações</button>
+                            <button class="btn" style="width: 100%; margin-bottom: 1rem;">Exportar Banco de Dados</button>
+                            <button class="btn btn-outline" style="width: 100%;">Importar Dados</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <p>&copy; 2025 Agente de Processos Administrativos</p>
+                <div class="footer-links">
+                    <a href="#termos">Termos de Uso</a>
+                    <a href="#privacidade">Privacidade</a>
+                    <a href="#ajuda">Ajuda</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

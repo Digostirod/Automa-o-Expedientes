@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Priorização - Agente de Processos Administrativos</title>
+    <style>
+        /* Estilos básicos */
+        :root {
+            --primary-color: #1d4ed8;
+            --primary-light: #eff6ff;
+            --secondary-color: #0f766e;
+            --accent-color: #ea580c;
+            --accent-light: #ffedd5;
+            --red-color: #dc2626;
+            --red-light: #fee2e2;
+            --yellow-color: #eab308;
+            --yellow-light: #fef9c3;
+            --green-color: #16a34a;
+            --green-light: #dcfce7;
+            --gray-light: #f3f4f6;
+            --gray-medium: #9ca3af;
+            --gray-dark: #4b5563;
+            --white: #ffffff;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            line-height: 1.6;
+            color: var(--gray-dark);
+            background-color: #f9fafb;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header */
+        header {
+            background-color: var(--primary-color);
+            color: var(--white);
+            padding: 1rem 0;
+            box-shadow: var(--shadow);
+        }
+        
+        .header-content {
+            display: flex;
+            flex-direction: column;
+            padding: 0.5rem 0;
+        }
+        
+        @media (min-width: 768px) {
+            .header-content {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+            }
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+        
+        @media (min-width: 768px) {
+            .logo {
+                margin-bottom: 0;
+            }
+        }
+        
+        nav ul {
+            display: flex;
+            flex-wrap: wrap;
+            list-style: none;
+            gap: 1.5rem;
+        }
+        
+        nav a {
+            color: var(--white);
+            text-decoration: none;
+            transition: opacity 0.2s;
+        }
+        
+        nav a:hover {
+            opacity: 0.8;
+            text-decoration: underline;
+        }
+        
+        /* Main content */
+        .main-content {
+            padding: 2rem 0;
+        }
+        
+        .page-title {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .page-description {
+            color: var(--gray-dark);
+            margin-bottom: 2rem;
+        }
+        
+        /* Grid layout */
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+        
+        @media (min-width: 768px) {
+            .grid {
+                grid-template-columns: 2fr 1fr;
+            }
+        }
+        
+        /* Card styles */
+        .card {
+            background-color: var(--white);
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            margin-bottom: 1.5rem;
+        }
+        
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .card-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background-color: var(--primary-color);
+            color: var(--white);
+            text-decoration: none;
+            border-radius: 0.25rem;
+            font-weight: 500;
+            text-align: center;
+            transition: background-color 0.2s;
+            border: none;
+            cursor: pointer;
+            font-size: 0.875rem;
+        }
+        
+        .btn:hover {
+            background-color: #1e40af;
+        }
+        
+        .btn-sm {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.75rem;
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+        }
+        
+        .btn-outline:hover {
+            background-color: var(--primary-light);
+        }
+        
+        /* Process cards */
+        .process-card {
+            border-left: 4px solid var(--accent-color);
+            background-color: var(--accent-light);
+            padding: 1rem;
+            border-radius: 0.25rem;
+            margin-bottom: 1rem;
+        }
+        
+        .process-card.critical {
+            border-left-color: var(--red-color);
+            background-color: var(--red-light);
+        }
+        
+        .process-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+        
+        .process-title {
+            font-weight: 600;
+        }
+        
+        .priority-badge {
+            font-size: 0.75rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 9999px;
+            font-weight: 600;
+        }
+        
+        .priority-badge.critical {
+            background-color: var(--red-color);
+            color: white;
+        }
+        
+        .priority-badge.high {
+            background-color: var(--accent-color);
+            color: white;
+        }
+        
+        .process-subject {
+            margin-bottom: 0.75rem;
+        }
+        
+        .process-details {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.5rem;
+            font-size: 0.875rem;
+            margin-bottom: 0.75rem;
+        }
+        
+        .detail-label {
+            color: var(--gray-medium);
+        }
+        
+        .deadline {
+            margin-top: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .deadline.overdue {
+            color: var(--red-color);
+        }
+        
+        .deadline.today {
+            color: var(--accent-color);
+        }
+        
+        .deadline.upcoming {
+            color: var(--primary-color);
+        }
+        
+        .process-actions {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 1rem;
+        }
+        
+        /* Stats card */
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .stat-box {
+            padding: 1rem;
+            border-radius: 0.375rem;
+            text-align: center;
+        }
+        
+        .stat-box.primary {
+            background-color: var(--primary-light);
+        }
+        
+        .stat-box.accent {
+            background-color: var(--red-light);
+        }
+        
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+        
+        .stat-box.primary .stat-value {
+            color: var(--primary-color);
+        }
+        
+        .stat-box.accent .stat-value {
+            color: var(--red-color);
+        }
+        
+        .stat-label {
+            font-size: 0.875rem;
+        }
+        
+        .stat-box.primary .stat-label {
+            color: var(--primary-color);
+        }
+        
+        .stat-box.accent .stat-label {
+            color: var(--red-color);
+        }
+        
+        /* Distribution bars */
+        .distribution {
+            margin-bottom: 1rem;
+        }
+        
+        .distribution-item {
+            margin-bottom: 0.75rem;
+        }
+        
+        .distribution-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.25rem;
+            font-size: 0.875rem;
+        }
+        
+        .distribution-bar {
+            height: 0.5rem;
+            background-color: var(--gray-light);
+            border-radius: 9999px;
+            overflow: hidden;
+        }
+        
+        .distribution-fill {
+            height: 100%;
+            border-radius: 9999px;
+        }
+        
+        .distribution-fill.critical {
+            background-color: var(--red-color);
+        }
+        
+        .distribution-fill.high {
+            background-color: var(--accent-color);
+        }
+        
+        .distribution-fill.medium {
+            background-color: var(--yellow-color);
+        }
+        
+        .distribution-fill.low {
+            background-color: var(--green-color);
+        }
+        
+        /* Criteria list */
+        .criteria-list {
+            list-style-position: inside;
+            font-size: 0.875rem;
+        }
+        
+        .criteria-list li {
+            margin-bottom: 0.25rem;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--gray-light);
+            border-top: 1px solid #e5e7eb;
+            padding: 2rem 0;
+            margin-top: 2rem;
+        }
+        
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        @media (min-width: 768px) {
+            .footer-content {
+                flex-direction: row;
+                justify-content: space-between;
+            }
+        }
+        
+        .footer-links {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+        
+        @media (min-width: 768px) {
+            .footer-links {
+                margin-top: 0;
+            }
+        }
+        
+        .footer-links a {
+            color: var(--gray-dark);
+            text-decoration: none;
+        }
+        
+        .footer-links a:hover {
+            color: var(--primary-color);
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">Agente de Processos Administrativos</div>
+                <nav>
+                    <ul>
+                        <li><a href="index.html">Início</a></li>
+                        <li><a href="processos.html">Processos</a></li>
+                        <li><a href="priorizacao.html">Priorização</a></li>
+                        <li><a href="banco-dados.html">Banco de Dados</a></li>
+                        <li><a href="configuracoes.html">Configurações</a></li>
+                        <li><a href="sobre.html">Sobre</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="container">
+            <h1 class="page-title">Priorização de Processos</h1>
+            <p class="page-description">
+                Identifique processos urgentes que requerem atenção imediata.
+            </p>
+
+            <div class="grid">
+                <div class="processes-column">
+                    <div class="card">
+                        <div class="card-title">
+                            <h2>Processos Urgentes</h2>
+                            <div class="card-actions">
+                                <button class="btn btn-outline btn-sm">Atualizar</button>
+                                <button class="btn btn-sm">Exportar Relatório</button>
+                            </div>
+                        </div>
+
+                        <!-- Processo Crítico 1 -->
+                        <div class="process-card critical">
+                            <div class="process-header">
+                                <h3 class="process-title">11111.222222/2023-33</h3>
+                                <span class="priority-badge critical">Crítico</span>
+                            </div>
+                            <p class="process-subject">Mandado de Segurança - Prazo 48h</p>
+                            
+                            <div class="process-details">
+                                <div>
+                                    <span class="detail-label">Recebido:</span> 18/04/2023
+                                </div>
+                                <div>
+                                    <span class="detail-label">Prazo:</span> 20/04/2023
+                                </div>
+                                <div>
+                                    <span class="detail-label">Remetente:</span> Tribunal de Justiça
+                                </div>
+                                <div>
+                                    <span class="detail-label">Tipo:</span> Mandado de Segurança
+                                </div>
+                            </div>
+                            
+                            <div class="deadline overdue">
+                                ATRASADO por 2 dias
+                            </div>
+                            
+                            <div class="process-actions">
+                                <button class="btn">Processar Agora</button>
+                            </div>
+                        </div>
+
+                        <!-- Processo Crítico 2 -->
+                        <div class="process-card critical">
+                            <div class="process-header">
+                                <h3 class="process-title">22222.333333/2023-44</h3>
+                                <span class="priority-badge critical">Crítico</span>
+                            </div>
+                            <p class="process-subject">Intimação Judicial - Resposta Imediata</p>
+                            
+                            <div class="process-details">
+                                <div>
+                                    <span class="detail-label">Recebido:</span> 19/04/2023
+                                </div>
+                                <div>
+                                    <span class="detail-label">Prazo:</span> 20/04/2023
+                                </div>
+                                <div>
+                                    <span class="detail-label">Remetente:</span> Vara Federal
+                                </div>
+                                <div>
+                                    <span class="detail-label">Tipo:</span> Intimação Judicial
+                                </div>
+                            </div>
+                            
+                            <div class="deadline today">
+                                VENCE HOJE
+                            </div>
+                            
+                            <div class="process-actions">
+                                <button class="btn">Processar Agora</button>
+                            </div>
+                        </div>
+
+                        <!-- Processo Alta Prioridade -->
+                        <div class="process-card">
+                            <div class="process-header">
+                                <h3 class="process-title">54321.123456/2023-67</h3>
+                                <span class="priority-badge high">Alta Prioridade</span>
+                            </div>
+                            <p class="process-subject">URGENTE - Processo de Licitação</p>
+                            
+                            <div class="process-details">
+                                <div>
+                                    <span class="detail-label">Recebido:</span> 15/04/2023
+                                </div>
+                                <div>
+                                    <span class="detail-label">Prazo:</span> 25/04/2023
+                                </div>
+                                <div>
+                                    <span class="detail-label">Remetente:</span> Secretaria de Administração
+                                </div>
+                                <div>
+                                    <span class="detail-label">Tipo:</span> Processo Licitatório
+                                </div>
+                            </div>
+                            
+                            <div class="deadline upcoming">
+                                Vence em 5 dias
+                            </div>
+                            
+                            <div class="process-actions">
+                                <button class="btn">Processar Agora</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stats-column">
+                    <div class="card">
+                        <h2 class="card-title">Estatísticas</h2>
+                        
+                        <div class="stat-grid">
+                            <div class="stat-box primary">
+                                <div class="stat-value">250</div>
+                                <div class="stat-label">Total de Processos</div>
+                            </div>
+                            
+                            <div class="stat-box accent">
+                                <div class="stat-value">18</div>
+                                <div class="stat-label">Processos Urgentes</div>
+                            </div>
+                        </div>
+                        
+                        <h3 class="card-title">Distribuição por Urgência</h3>
+                        <div class="distribution">
+                            <div class="distribution-item">
+                                <div class="distribution-header">
+                                    <span>Crítico</span>
+                                    <span>8 (3%)</span>
+                                </div>
+                                <div class="distribution-bar">
+                                    <div class="distribution-fill critical" style="width: 3%"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="distribution-item">
+                                <div class="distribution-header">
+                                    <span>Alto</span>
+                                    <span>10 (4%)</span>
+                                </div>
+                                <div class="distribution-bar">
+                                    <div class="distribution-fill high" style="width: 4%"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="distribution-item">
+                                <div class="distribution-header">
+                                    <span>Médio</span>
+                                    <span>75 (30%)</span>
+                                </div>
+                                <div class="distribution-bar">
+                                    <div class="distribution-fill medium" style="width: 30%"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="distribution-item">
+                                <div class="distribution-header">
+                                    <span>Baixo</span>
+                                    <span>157 (63%)</span>
+                                </div>
+                                <div class="distribution-bar">
+                                    <div class="distribution-fill low" style="width: 63%"></div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <h3 class="card-title">Critérios de Priorização</h3>
+                        <ul class="criteria-list">
+                            <li>Palavras-chave de urgência (30%)</li>
+                            <li>Prazos e datas (40%)</li>
+                            <li>Tipo de processo (20%)</li>
+                            <li>Remetente/Origem (10%)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <p>&copy; 2025 Agente de Processos Administrativos</p>
+                <div class="footer-links">
+                    <a href="#termos">Termos de Uso</a>
+                    <a href="#privacidade">Privacidade</a>
+                    <a href="#ajuda">Ajuda</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
